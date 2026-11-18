@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MINIポケットブック｜東亜工業 中条事業所</title>
 <!-- PWA -->
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1a4b8c">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ポケットブック">
-<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="app-icon-192.png">
 <style>
   :root {
     --primary: #1a4b8c;
@@ -355,6 +356,9 @@
   <div class="nav-item" onclick="showPage('loctite')" id="nav-loctite">
     <span class="icon">🔴</span><span>ロック<br>タイト</span>
   </div>
+  <div class="nav-item" onclick="showPage('fit')" id="nav-fit">
+    <span class="icon">📏</span><span>はめあい</span>
+  </div>
   <div class="nav-item" onclick="showPage('calc')" id="nav-calc">
     <span class="icon">🧮</span><span>計算機</span>
   </div>
@@ -451,6 +455,11 @@
         <span class="sc-icon">🔴</span>
         <span class="sc-title">ロックタイト</span>
         <span class="sc-sub">はめ合い用・ネジ用</span>
+      </div>
+      <div class="section-card" onclick="showPage('fit')">
+        <span class="sc-icon">📏</span>
+        <span class="sc-title">はめあい公差</span>
+        <span class="sc-sub">穴・軸の寸法許容差 JIS B0401</span>
       </div>
       <div class="section-card" onclick="showPage('calc')">
         <span class="sc-icon">🧮</span>
@@ -2531,6 +2540,71 @@
     </div>
   </div>
 
+  <!-- ━━ はめあい公差 ━━ -->
+  <div class="page" id="page-fit">
+    <div class="page-title">📏 はめあい公差（JIS B 0401）</div>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab(this,'fit','calc')">早見計算</button>
+      <button class="tab-btn" onclick="switchTab(this,'fit','hole')">穴の許容差</button>
+      <button class="tab-btn" onclick="switchTab(this,'fit','shaft')">軸の許容差</button>
+    </div>
+
+    <!-- 早見計算 -->
+    <div class="tab-pane active" id="fit-tab-calc">
+      <div class="content-card">
+        <div class="card-header">はめあい 早見計算</div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+            <label style="font-size:11px;color:var(--muted);">基準寸法 (mm)
+              <input id="fit-size" type="number" inputmode="decimal" value="50" oninput="fitCalc()" style="width:100%;font-size:16px;padding:8px;border:1px solid var(--border);border-radius:6px;margin-top:4px;">
+            </label>
+            <label style="font-size:11px;color:var(--muted);">穴
+              <select id="fit-hole" onchange="fitCalc()" style="width:100%;font-size:16px;padding:8px;border:1px solid var(--border);border-radius:6px;margin-top:4px;"></select>
+            </label>
+            <label style="font-size:11px;color:var(--muted);">軸
+              <select id="fit-shaft" onchange="fitCalc()" style="width:100%;font-size:16px;padding:8px;border:1px solid var(--border);border-radius:6px;margin-top:4px;"></select>
+            </label>
+          </div>
+          <div id="fit-result"></div>
+        </div>
+      </div>
+      <div class="content-card">
+        <div class="card-header">よく使うはめあい（穴基準 H7）</div>
+        <div class="card-body" style="font-size:12px;line-height:1.9;">
+          <div><b>H7/g6</b>　すきまばめ：精密なすべり・回転部</div>
+          <div><b>H7/h6</b>　すきまばめ：手で挿入できる位置決め</div>
+          <div><b>H7/js6</b>　中間ばめ：木づち等で軽く打込み</div>
+          <div><b>H7/k6</b>　中間ばめ：軸受内輪・カップリング等</div>
+          <div><b>H7/m6</b>　中間ばめ：しまり気味、圧入</div>
+          <div><b>H7/n6</b>　しまりばめ寄り：プレス圧入</div>
+          <div style="color:var(--muted);font-size:11px;margin-top:4px;">※用途は一般的な目安です。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 穴 -->
+    <div class="tab-pane" id="fit-tab-hole">
+      <div class="content-card">
+        <div class="card-header">穴の寸法許容差（単位：μm）</div>
+        <div class="card-body" style="padding:8px;">
+          <p style="font-size:10px;color:var(--muted);margin-bottom:6px;">各欄の上段＝上の許容差、下段＝下の許容差　←横スクロール</p>
+          <div class="tbl-wrap"><table id="fit-hole-tbl"></table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 軸 -->
+    <div class="tab-pane" id="fit-tab-shaft">
+      <div class="content-card">
+        <div class="card-header">軸の寸法許容差（単位：μm）</div>
+        <div class="card-body" style="padding:8px;">
+          <p style="font-size:10px;color:var(--muted);margin-bottom:6px;">各欄の上段＝上の許容差、下段＝下の許容差　←横スクロール</p>
+          <div class="tbl-wrap"><table id="fit-shaft-tbl"></table></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ━━ 配管重量計算機 ━━ -->
   <div class="page" id="page-calc">
     <div class="page-title">🧮 配管重量計算機</div>
@@ -4120,9 +4194,106 @@ function calcDoAll() {
 }
 
 calcBuildUI();
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// はめあい公差（JIS B 0401-2：IT等級＋基礎となる寸法許容差から算出）
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const FIT_SIZES = [[0,3],[3,6],[6,10],[10,18],[18,30],[30,50],[50,80],[80,120],[120,180],[180,250]];
+const FIT_IT = {
+  5:[4,5,6,8,9,11,13,15,18,20],
+  6:[6,8,9,11,13,16,19,22,25,29],
+  7:[10,12,15,18,21,25,30,35,40,46],
+  8:[14,18,22,27,33,39,46,54,63,72],
+  9:[25,30,36,43,52,62,74,87,100,115],
+  10:[40,48,58,70,84,100,120,140,160,185]
+};
+// 軸の基礎となる寸法許容差（e,f,g,h:上の許容差 es / k,m,n:下の許容差 ei）μm
+const FIT_FD = {
+  e:[-14,-20,-25,-32,-40,-50,-60,-72,-85,-100],
+  f:[-6,-10,-13,-16,-20,-25,-30,-36,-43,-50],
+  g:[-2,-4,-5,-6,-7,-9,-10,-12,-14,-15],
+  h:[0,0,0,0,0,0,0,0,0,0],
+  k:[0,1,1,1,2,2,2,3,3,4],
+  m:[2,4,6,7,8,9,11,13,15,17],
+  n:[4,8,10,12,15,17,20,23,27,31]
+};
+// 穴 K・M・N の Δ値 μm
+const FIT_DELTA = {6:[0,3,3,3,4,5,6,7,7,9], 7:[0,4,6,7,8,9,11,13,15,17]};
+const FIT_SHAFT = ['e7','e8','e9','f6','f7','f8','g5','g6','h5','h6','h7','h8','h9','js5','js6','js7','k5','k6','m5','m6','n6'];
+const FIT_HOLE  = ['E7','E8','E9','F6','F7','F8','G6','G7','H6','H7','H8','H9','H10','JS6','JS7','K6','K7','M6','M7','N6','N7'];
+
+// [上の許容差, 下の許容差] μm
+function fitDev(cls, i) {
+  const m = cls.match(/^([A-Za-z]+)(\d+)$/);
+  const L = m[1], g = +m[2], it = FIT_IT[g][i];
+  const l = L.toLowerCase();
+  if (l === 'js') { const t = (g >= 7 && it % 2) ? it - 1 : it; return [t/2, -t/2]; } // 7級以上でITが奇数のときは偶数に切下げ
+  if (L === l) { // 軸
+    const fd = FIT_FD[l][i];
+    if ('efgh'.includes(l)) return [fd, fd - it];
+    return [fd + it, fd];
+  }
+  // 穴
+  if ('efgh'.includes(l)) { const ei = -FIT_FD[l][i]; return [ei + it, ei]; }
+  const es = -FIT_FD[l][i] + FIT_DELTA[g][i];
+  return [es, es - it];
+}
+function fitFmt(v) { if (v === 0) return '0'; return (v > 0 ? '+' : '−') + Math.abs(v); }
+function fitSizeIdx(d) { for (let i = 0; i < FIT_SIZES.length; i++) if (d > FIT_SIZES[i][0] && d <= FIT_SIZES[i][1]) return i; return -1; }
+function fitTable(list) {
+  let h = '<thead><tr><th>寸法区分<br>(mm)</th>' + list.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+  FIT_SIZES.forEach((s, i) => {
+    h += `<tr><td>${s[0]===0?'〜':s[0]+'超'}<br>${s[1]}以下</td>`;
+    list.forEach(c => {
+      const [u, lo] = fitDev(c, i);
+      h += (c.toLowerCase().startsWith('js')) ? `<td>±${u}</td>` : `<td>${fitFmt(u)}<br>${fitFmt(lo)}</td>`;
+    });
+    h += '</tr>';
+  });
+  return h + '</tbody>';
+}
+function fitCalc() {
+  const d = parseFloat(document.getElementById('fit-size').value);
+  const hc = document.getElementById('fit-hole').value, sc = document.getElementById('fit-shaft').value;
+  const out = document.getElementById('fit-result');
+  const i = fitSizeIdx(d);
+  if (isNaN(d) || i < 0) { out.innerHTML = '<p style="color:var(--muted);font-size:13px;">基準寸法を 0〜250mm で入力してください</p>'; return; }
+  const [hu, hl] = fitDev(hc, i), [su, sl] = fitDev(sc, i);
+  const mm = v => (d + v/1000).toFixed(4).replace(/0$/, '');
+  const maxC = hu - sl, minC = hl - su;
+  let kind, color;
+  if (minC >= 0) { kind = 'すきまばめ'; color = '#1a7f37'; }
+  else if (maxC <= 0) { kind = 'しまりばめ'; color = '#c0392b'; }
+  else { kind = '中間ばめ'; color = '#b7791f'; }
+  const cl = v => v >= 0 ? `すきま ${v} μm` : `しめしろ ${-v} μm`;
+  out.innerHTML = `
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">寸法区分：${FIT_SIZES[i][0]}超 ${FIT_SIZES[i][1]}以下</div>
+    <div class="tbl-wrap"><table style="min-width:0;">
+      <tr><th></th><th>許容差(μm)<br>上 / 下</th><th>最大<br>(mm)</th><th>最小<br>(mm)</th></tr>
+      <tr><td>穴 ${hc}</td><td>${fitFmt(hu)} / ${fitFmt(hl)}</td><td>${mm(hu)}</td><td>${mm(hl)}</td></tr>
+      <tr><td>軸 ${sc}</td><td>${fitFmt(su)} / ${fitFmt(sl)}</td><td>${mm(su)}</td><td>${mm(sl)}</td></tr>
+    </table></div>
+    <div style="margin-top:10px;padding:10px;border-radius:8px;background:#f4f7fc;font-size:13px;line-height:1.8;">
+      <div style="font-weight:800;color:${color};font-size:15px;">${hc}/${sc}　${kind}</div>
+      <div>最大：${cl(maxC)}</div>
+      <div>最小：${cl(minC)}</div>
+    </div>`;
+}
+function fitInit() {
+  document.getElementById('fit-hole-tbl').innerHTML = fitTable(FIT_HOLE);
+  document.getElementById('fit-shaft-tbl').innerHTML = fitTable(FIT_SHAFT);
+  document.getElementById('fit-hole').innerHTML = FIT_HOLE.map(c => `<option${c==='H7'?' selected':''}>${c}</option>`).join('');
+  document.getElementById('fit-shaft').innerHTML = FIT_SHAFT.map(c => `<option${c==='g6'?' selected':''}>${c}</option>`).join('');
+  fitCalc();
+}
+fitInit();
 </script>
 <script>
-// PWA installed
+// PWA: Service Worker 登録（オフライン対応）
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function (e) { console.log('SW登録失敗', e); });
+  });
 }
 </script>
 </body>
