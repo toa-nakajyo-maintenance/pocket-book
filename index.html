@@ -359,6 +359,9 @@
   <div class="nav-item" onclick="showPage('fit')" id="nav-fit">
     <span class="icon">📏</span><span>はめあい</span>
   </div>
+  <div class="nav-item" onclick="showPage('torque')" id="nav-torque">
+    <span class="icon">🔩</span><span>締付<br>トルク</span>
+  </div>
   <div class="nav-item" onclick="showPage('calc')" id="nav-calc">
     <span class="icon">🧮</span><span>計算機</span>
   </div>
@@ -461,6 +464,11 @@
         <span class="sc-title">はめあい公差</span>
         <span class="sc-sub">穴・軸の寸法許容差 JIS B0401</span>
       </div>
+      <div class="section-card" onclick="showPage('torque')">
+        <span class="sc-icon">🔩</span>
+        <span class="sc-title">ガスケット締付トルク</span>
+        <span class="sc-sub">JIS 10K〜63K・ANSI 150〜1500LB</span>
+      </div>
       <div class="section-card" onclick="showPage('calc')">
         <span class="sc-icon">🧮</span>
         <span class="sc-title">配管重量計算機</span>
@@ -473,6 +481,9 @@
       </div>
     </div>
   </div>
+
+  <!-- ━━ ガスケット締付トルク計算（中身は gasket-torque.js） ━━ -->
+  <div class="page" id="page-torque"></div>
 
   <!-- ━━ QRコード ━━ -->
   <div class="page" id="page-qr">
@@ -4288,6 +4299,7 @@ function fitInit() {
 }
 fitInit();
 </script>
+<script src="gasket-torque.js"></script>
 <script>
 // PWA: Service Worker 登録（オフライン対応）
 if ('serviceWorker' in navigator) {
