@@ -1,5 +1,5 @@
-// ポケットブック Service Worker v12
-const CACHE = 'pocketbook-v12';
+// ポケットブック Service Worker v13
+const CACHE = 'pocketbook-v13';
 const ASSETS = [
   './',
   './index.html',
@@ -23,7 +23,8 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+  // ブラウザの一時保存を使わず、必ずサーバーから最新を取得して保存
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(u => new Request(u, { cache: 'reload' })))));
   self.skipWaiting();
 });
 
@@ -47,6 +48,19 @@ self.addEventListener('fetch', e => {
           return r;
         })
         .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+  // プログラム(.js/.json)：電波があれば最新版、なければ保存済み
+  if (/\.(js|json)$/.test(new URL(e.request.url).pathname)) {
+    e.respondWith(
+      fetch(e.request, { cache: 'no-cache' })
+        .then(r => {
+          const copy = r.clone();
+          caches.open(CACHE).then(c => c.put(e.request, copy));
+          return r;
+        })
+        .catch(() => caches.match(e.request, { ignoreSearch: true }))
     );
     return;
   }

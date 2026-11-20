@@ -4321,7 +4321,7 @@ fitInit();
 // PWA: Service Worker 登録（オフライン対応）
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
-    navigator.serviceWorker.register('sw.js').catch(function (e) { console.log('SW登録失敗', e); });
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (reg) { reg.update(); }).catch(function (e) { console.log('SW登録失敗', e); });
   });
 }
 </script>
