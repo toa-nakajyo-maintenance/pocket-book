@@ -126,15 +126,10 @@ function init(){
    <div class="tab-pane" id="bs-tab-how"><div class="content-card"><div class="card-header">呼び番号の読み方（例：6205ZZC3）</div><div class="card-body" style="font-size:12px;line-height:1.9;">
      <div><b>6</b>：形式（深溝玉）／<b>2</b>：寸法系列（02）／<b>05</b>：内径番号（05×5＝25mm）／<b>ZZ</b>：両側シールド／<b>C3</b>：すきま</div>
      <div style="margin-top:6px;"><b>内径番号</b>：00＝10mm、01＝12、02＝15、03＝17、04以上は×5。1桁（608 等）はそのままmm。/22 は22mm。</div>
-     <div class="tbl-wrap" style="margin-top:8px;"><table><thead><tr><th>形式記号</th><th>形式</th></tr></thead><tbody>
-       <tr><td>68・69・160・60・62・63・64</td><td>深溝玉軸受</td></tr>
-       <tr><td>79・70・72・73</td><td>アンギュラ玉軸受</td></tr>
-       <tr><td>12・13・22・23</td><td>自動調心玉軸受</td></tr>
-       <tr><td>NU・NJ・NUP・N・NF</td><td>円筒ころ軸受</td></tr>
-       <tr><td>213・222・223・230・231・232・240・241</td><td>自動調心ころ軸受</td></tr>
-       <tr><td>302・303・313・320・322・323・329・330・331・332</td><td>円すいころ軸受</td></tr>
-       <tr><td>511・512・513・514</td><td>単式スラスト玉軸受</td></tr>
-     </tbody></table></div>
+     <div style="margin-top:8px;border:1px solid #c5d3e8;border-radius:6px;overflow:hidden;">
+       ${[['深溝玉軸受','68・69・160・60・62・63・64'],['アンギュラ玉軸受','79・70・72・73'],['自動調心玉軸受','12・13・22・23'],['円筒ころ軸受','NU・NJ・NUP・N・NF'],['自動調心ころ軸受','213・222・223・230・231・232・240・241'],['円すいころ軸受','302・303・313・320・322・323・329・330・331・332'],['単式スラスト玉軸受','511・512・513・514']]
+         .map(([n,c],i)=>`<div style="padding:7px 10px;${i?'border-top:1px solid #e2e8f0;':''}background:${i%2?'#f4f7fc':'#fff'};"><div style="font-weight:700;color:var(--primary);">${n}</div><div style="font-size:12px;word-break:break-all;">形式記号：${c}</div></div>`).join('')}
+     </div>
      <p style="font-size:11px;color:var(--muted);margin-top:6px;">寸法はJIS B 1512寸法系列・NSK軸受寸法表の値。メーカー固有の補助記号は一部のみ対応。</p>
    </div></div></div>`;
   $('bs-no').addEventListener('input', brgByNo);
