@@ -455,7 +455,7 @@
       <div class="section-card" onclick="showPage('brg')">
         <span class="sc-icon">⭕</span>
         <span class="sc-title">ベアリング</span>
-        <span class="sc-sub">すき間等級・精度等級</span>
+        <span class="sc-sub">型番検索・すき間・精度</span>
       </div>
       <div class="section-card" onclick="showPage('loctite')">
         <span class="sc-icon">🔴</span>
@@ -2306,15 +2306,19 @@
 
   <!-- ━━ ベアリング ━━ -->
   <div class="page" id="page-brg">
-    <div class="page-title">⭕ ベアリング等級表</div>
+    <div class="page-title">⭕ ベアリング</div>
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab(this,'brg','clearance')">すき間等級</button>
+      <button class="tab-btn active" onclick="switchTab(this,'brg','search')">型番検索</button>
+      <button class="tab-btn" onclick="switchTab(this,'brg','clearance')">すき間等級</button>
       <button class="tab-btn" onclick="switchTab(this,'brg','precision')">精度等級</button>
       <button class="tab-btn" onclick="switchTab(this,'brg','seal')">シール記号</button>
     </div>
 
+    <!-- 型番検索（中身は bearing-search.js） -->
+    <div class="tab-pane active" id="brg-tab-search"></div>
+
     <!-- すき間等級 -->
-    <div class="tab-pane active" id="brg-tab-clearance">
+    <div class="tab-pane" id="brg-tab-clearance">
       <div class="content-card">
         <div class="card-header">すき間等級（ラジアル内部すき間）</div>
         <div class="card-body">
@@ -4312,6 +4316,7 @@ fitInit();
 </script>
 <script src="gasket-torque.js"></script>
 <script src="oil-seal.js"></script>
+<script src="bearing-search.js"></script>
 <script>
 // PWA: Service Worker 登録（オフライン対応）
 if ('serviceWorker' in navigator) {
