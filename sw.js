@@ -1,9 +1,10 @@
-// ポケットブック Service Worker v9
-const CACHE = 'pocketbook-v9';
+// ポケットブック Service Worker v10
+const CACHE = 'pocketbook-v10';
 const ASSETS = [
   './',
   './index.html',
   './gasket-torque.js',
+  './oil-seal.js',
   './manifest.json',
   './app-icon-192.png',
   './app-icon-512.png',
