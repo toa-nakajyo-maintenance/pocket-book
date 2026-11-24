@@ -1,5 +1,5 @@
-// ポケットブック Service Worker v14
-const CACHE = 'pocketbook-v14';
+// ポケットブック Service Worker v15
+const CACHE = 'pocketbook-v15';
 const ASSETS = [
   './',
   './index.html',
