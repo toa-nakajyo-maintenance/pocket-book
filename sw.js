@@ -1,11 +1,12 @@
-// ポケットブック Service Worker v13
-const CACHE = 'pocketbook-v13';
+// ポケットブック Service Worker v14
+const CACHE = 'pocketbook-v14';
 const ASSETS = [
   './',
   './index.html',
   './gasket-torque.js',
   './oil-seal.js',
   './bearing-search.js',
+  './shindashi.js',
   './manifest.json',
   './app-icon-192.png',
   './app-icon-512.png',
@@ -19,7 +20,8 @@ const ASSETS = [
   './flange-mf.jpeg',
   './flange-tg.jpeg',
   './loctite-1.png',
-  './loctite-2.png'
+  './loctite-2.png',
+  './shindashi-machine.jpg'
 ];
 
 self.addEventListener('install', e => {

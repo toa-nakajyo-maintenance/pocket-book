@@ -362,6 +362,9 @@
   <div class="nav-item" onclick="showPage('torque')" id="nav-torque">
     <span class="icon">🔩</span><span>締付<br>トルク</span>
   </div>
+  <div class="nav-item" onclick="showPage('shindashi')" id="nav-shindashi">
+    <span class="icon">🎯</span><span>芯出し</span>
+  </div>
   <div class="nav-item" onclick="showPage('oilseal')" id="nav-oilseal">
     <span class="icon">🛞</span><span>オイル<br>シール</span>
   </div>
@@ -472,6 +475,11 @@
         <span class="sc-title">ガスケット締付トルク</span>
         <span class="sc-sub">JIS 10K〜63K・ANSI 150〜1500LB</span>
       </div>
+      <div class="section-card" onclick="showPage('shindashi')">
+        <span class="sc-icon">🎯</span>
+        <span class="sc-title">芯出し計算</span>
+        <span class="sc-sub">ダイヤルゲージ値→シム・左右調整</span>
+      </div>
       <div class="section-card" onclick="showPage('oilseal')">
         <span class="sc-icon">🛞</span>
         <span class="sc-title">オイルシール検索</span>
@@ -492,6 +500,9 @@
 
   <!-- ━━ ガスケット締付トルク計算（中身は gasket-torque.js） ━━ -->
   <div class="page" id="page-torque"></div>
+
+  <!-- ━━ 芯出し計算（中身は shindashi.js） ━━ -->
+  <div class="page" id="page-shindashi"></div>
 
   <!-- ━━ オイルシール検索（中身は oil-seal.js） ━━ -->
   <div class="page" id="page-oilseal"></div>
@@ -4315,6 +4326,7 @@ function fitInit() {
 fitInit();
 </script>
 <script src="gasket-torque.js"></script>
+<script src="shindashi.js"></script>
 <script src="oil-seal.js"></script>
 <script src="bearing-search.js"></script>
 <script>
